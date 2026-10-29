@@ -3,7 +3,9 @@
 
     if (window.gamepad_nav_plugin) return;
     window.gamepad_nav_plugin = true;
-
+    setTimeout(function () {
+        try { Lampa.Noty.show('Gamepad plugin: загружен'); } catch (e) {}
+    }, 3000);
     var DEADZONE = 0.5;      // мёртвая зона стика
     var REPEAT_DELAY = 400;  // задержка перед автоповтором, мс
     var REPEAT_RATE = 120;   // интервал автоповтора, мс
@@ -92,6 +94,10 @@
         }
 
         if (pad) {
+            if (!window.gp_seen) {
+                window.gp_seen = true;
+                try { Lampa.Noty.show('Геймпад виден: ' + pad.id + ' / mapping: ' + pad.mapping); } catch (e) {}
+            }
             var b = function (i) { return pad.buttons[i] && pad.buttons[i].pressed; };
             var lx = pad.axes[0] || 0, ly = pad.axes[1] || 0, ry = pad.axes[3] || 0;
             var now = performance.now();
